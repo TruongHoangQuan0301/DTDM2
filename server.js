@@ -62,7 +62,8 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  // CSP cho phép tất cả (nếu bạn muốn strict hơn, thay đổi 'self' thành domain cụ thể)
+  res.setHeader('Content-Security-Policy', "default-src 'self' 'unsafe-inline' 'unsafe-eval'");
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   next();
 });
