@@ -1,0 +1,74 @@
+services:
+  - type: web
+    name: DTDM2
+    env: node
+    region: singapore
+    plan: free
+    
+    # Build configuration
+    buildCommand: npm install
+    startCommand: npm start
+    
+    # Environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      # Rate limiting
+      - key: RATE_LIMIT_WINDOW_MS
+        value: "900000"  # 15 minutes
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: "100"     # 100 requests per IP
+      # CORS
+      - key: ALLOWED_ORIGINS
+        value: "*"       # Change to your domain
+      # IP Whitelist (optional)
+      - key: ALLOWED_IPS
+        value: ""        # Leave empty to allow all, or add IPs: "192.168.1.1,10.0.0.1"
+    
+    # Health check configuration
+    healthCheckPath: /
+    healthCheckTimeout: 30
+    healthCheckInterval: 300  # 5 minutes
+    
+    # Headers for security
+    headers:
+      - path: "/*"
+        name: "X-Content-Type-Options"
+        value: "nosniff"
+      - path: "/*"
+        name: "X-Frame-Options"
+        value: "DENY"
+      - path: "/*"
+        name: "X-XSS-Protection"
+        value: "1; mode=block"
+      - path: "/*"
+        name: "Strict-Transport-Security"
+        value: "max-age=31536000; includeSubDomains"
+    
+    # Redirects (HTTP to HTTPS)
+    redirects:
+      - source: "http"
+        destination: "https"
+    
+    # Auto-scaling (uncomment for Standard plan)
+    # minInstances: 1
+    # maxInstances: 3
+    
+    # Disk configuration (if needed)
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+    
+    # Custom domains (add your domain here)
+    # customDomains:
+    #   - yourdomain.com
+    #   - www.yourdomain.com
+    
+    # Cron jobs (optional)
+    # crons:
+    #   - id: cleanup
+    #     command: npm run cleanup
+    #     schedule: "0 0 * * *"  # Every day at midnight
