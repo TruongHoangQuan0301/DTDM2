@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Express App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+    
+    p {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .button {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin: 10px 5px;
+    }
+    
+    .button:hover {
+      background: #764ba2;
+    }
+    
+    .response {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 5px;
+      display: none;
+    }
+    
+    .response.active {
+      display: block;
+    }
+    
+    .response-text {
+      color: #333;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Express App</h1>
+    <p>Welcome to your simple Express.js application!</p>
+    <p>This app is ready to deploy on Render.</p>
+    
+    <button class="button" onclick="testAPI()">Call API</button>
+    
+    <div class="response" id="response">
+      <h3>Response:</h3>
+      <div class="response-text" id="responseText"></div>
+    </div>
+  </div>
+
+  <script>
+    async function testAPI() {
+      try {
+        const response = await fetch('/api/hello');
+        const data = await response.json();
+        
+        document.getElementById('responseText').textContent = JSON.stringify(data, null, 2);
+        document.getElementById('response').classList.add('active');
+      } catch (error) {
+        document.getElementById('responseText').textContent = 'Error: ' + error.message;
+        document.getElementById('response').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
