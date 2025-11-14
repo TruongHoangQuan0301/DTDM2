@@ -47,11 +47,6 @@ services:
         name: "Strict-Transport-Security"
         value: "max-age=31536000; includeSubDomains"
     
-    # Redirects (HTTP to HTTPS)
-    redirects:
-      - source: "http"
-        destination: "https"
-    
     # Auto-scaling (uncomment for Standard plan)
     # minInstances: 1
     # maxInstances: 3

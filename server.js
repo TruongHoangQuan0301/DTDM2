@@ -8,10 +8,15 @@ const PORT = process.env.PORT || 3000;
 // Security & Firewall Middleware
 // ============================================
 
-// 1. Force HTTPS in production
+// 1. Trust proxy and Force HTTPS in production
+app.set('trust proxy', 1);
 app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production' && !req.secure) {
-    return res.redirect(`https://${req.header('host')}${req.url}`);
+  // Check X-Forwarded-Proto header from proxy (Render uses this)
+  if (process.env.NODE_ENV === 'production') {
+    const isSecure = req.secure || req.get('x-forwarded-proto') === 'https';
+    if (!isSecure && req.get('x-forwarded-proto') !== 'https') {
+      return res.redirect(`https://${req.get('host')}${req.url}`);
+    }
   }
   next();
 });
