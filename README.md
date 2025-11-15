@@ -11,7 +11,7 @@ my-express-app/
 ├── server.js               # Server Express
 ├── package.json            # Dependencies
 ├── .gitignore             # Git ignore
-└── README.md              # File này
+└── README.md              
 ```
 
 ## Cài đặt và chạy locally
